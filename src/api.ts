@@ -13,12 +13,11 @@ class Api {
   private _router: Router;
   public get router() { return this._router; }
 
-  constructor() {
-    this._router = Router();
-    this.router.use(handleError('api'));
-  }
+  constructor() { }
 
   init(config: Config) {
+
+    this._router = Router();
 
     // auth
 
@@ -65,6 +64,21 @@ class Api {
       res.sendStatus(204);
     }));
 
+    authRouter.post('/change-pass', validateSession(), json(), wrapAsync(async (req, res) => {
+      if(!req.body.password || !req.body.newpass)
+        throw new MalformedError('Body must have a password, and a newpass.');
+
+      if(await hash(req.user.salt, req.body.password) !== req.user.pass)
+        throw new NotAllowedError('Password mismatch.');
+
+      const salt = randomBytes(128).toString('hex');
+      const pass = hash(salt, req.body.newpass);
+
+      await db.putUser(req.user.id, Object.assign(req.user, { salt, pass }));
+      const sessions = await db.getSessionsForUser(req.user.id);
+      await db.delManySessions(sessions.filter(a => a !== req.session.id));
+    }));
+
     authRouter.post('/logout', validateSession(), wrapAsync(async (req, res) => {
       await db.delSession(req.session.id);
       res.sendStatus(204);
@@ -77,6 +91,13 @@ class Api {
     }));
 
     this.router.use('/auth', authRouter);
+    this.router.delete('/self', validateSession(), wrapAsync(async (req, res) => {
+      if(req.user) {
+        await db.delUser(req.user.id);
+        await db.delAllUserData(req.user.id);
+      }
+      res.sendStatus(204);
+    }));
 
     // db
 
@@ -146,6 +167,8 @@ class Api {
 
       res.json(await db.batch(req.user.id, req.params.scope, req.body))
     }), handleError('batch-scope'));
+
+    this.router.use(handleError('api'));
   }
 }
 
