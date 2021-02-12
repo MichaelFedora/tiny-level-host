@@ -2,6 +2,7 @@
   "name": "tiny-level-host",
   "version": "1.0.0",
   "description": "A tiny leveldb host for multi-user database access",
+  "repository": "github:MichaelFedora/tiny-level-host",
   "main": "lib/index",
   "scripts": {
     "build-lib": "del-cli lib && tsc --p tsconfig.lib.json",
