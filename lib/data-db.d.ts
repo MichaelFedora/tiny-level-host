@@ -5,11 +5,12 @@ export declare class DataDB {
     getUserFromUsername: (username: string) => Promise<{
         id?: string;
     }>;
+    private scope;
     get db(): LevelUp;
     safeGet(key: string): Promise<any>;
     constructor(_db: LevelUp, getUserFromUsername: (username: string) => Promise<{
         id?: string;
-    }>);
+    }>, scope?: string);
     get(user: string, scope: string, key: string): Promise<any>;
     add(user: string, scope: string, value: any): Promise<string>;
     put(user: string, scope: string, key: string, value: any): Promise<void>;

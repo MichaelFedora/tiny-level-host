@@ -12,10 +12,13 @@ export class DataDB {
 
   public async safeGet(key: string) { return this.db.get(key).catch(e => { if(e.notFound) return null; else throw e; }); }
 
-  constructor(private _db: LevelUp, public getUserFromUsername: (username: string) => Promise<{ id?: string }>) { }
+  constructor(private _db: LevelUp, public getUserFromUsername: (username: string) => Promise<{ id?: string }>, private scope = '') {
+    if(scope && !scope.endsWith('!!'))
+      this.scope = scope + '!!';
+  }
 
   async get(user: string, scope: string, key: string): Promise<any> {
-    return this.safeGet('db!!' + user + (scope ? '!!' + scope : '') + '!!' + key);
+    return this.safeGet(this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + key);
   }
 
   async add(user: string, scope: string, value: any): Promise<string> {
@@ -25,21 +28,21 @@ export class DataDB {
     do {
       id = v4();
     } while(await this.get(user, scope, id) != null);
-    await this.db.put('db!!' + user + (scope ? '!!' + scope : '') + '!!' + id, value);
+    await this.db.put(this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + id, value);
     return id;
   }
 
   async put(user: string, scope: string, key: string, value: any): Promise<void> {
-    await this.db.put('db!!' + user + (scope ? '!!' + scope : '') + '!!' + key, value);
+    await this.db.put(this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + key, value);
   }
 
   async del(user: string, scope: string, key: string): Promise<void> {
-    await this.db.del('db!!' + user + (scope ? '!!' + scope : '') + '!!' + key);
+    await this.db.del(this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + key);
   }
 
   async delAllUserData(user: string): Promise<void> {
-    const start = 'db!!' + user + '!!';
-    const end = 'db!!' + user + '!"';
+    const start = this.scope + 'db!!' + user + '!!';
+    const end = this.scope + 'db!!' + user + '!"';
     let batch = this.db.batch();
     await new Promise<any>(res => {
       const stream = this.db.createKeyStream({ gt: start, lt: end });
@@ -58,11 +61,11 @@ export class DataDB {
 
     const opts = { } as AbstractIteratorOptions;
 
-    const start = 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + (options.start || '');
+    const start = this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + (options.start || '');
     if(options.start) opts.gte = start;
     else opts.gt = start;
 
-    const end = 'db!!' + user + (scope ? '!!' + scope : '') + (options.end ? '!!' + options.end : '!"');
+    const end = this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + (options.end ? '!!' + options.end : '!"');
     if(options.end) opts.lte = end;
     else opts.lt = end;
 
@@ -103,7 +106,7 @@ export class DataDB {
 
   async batch(user: string, scope: string, batch: BatchOptions): Promise<void> {
     for(const item of batch)
-      item.key = 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + item.key;
+      item.key = this.scope + 'db!!' + user + (scope ? '!!' + scope : '') + '!!' + item.key;
 
     await this.db.batch(batch);
   }
