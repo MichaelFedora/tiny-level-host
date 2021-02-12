@@ -1,18 +1,5 @@
-import { pbkdf2 } from 'crypto';
-
 import { Query, QueryExpression } from './types';
 import { isEqual } from 'lodash';
-
-export async function hash(salt: string, password: string) {
-  return new Promise<string>((res, rej) => {
-    pbkdf2(password, salt, 10000, 512, 'sha256', (err, data) => {
-      if(err)
-        return rej(err);
-      else
-        return res(data.toString('hex'));
-    });
-  });
-}
 
 /*
 @todo: add '$[key].[key]...' accessor, i.e. { 'foo.bar.baz': 2 }

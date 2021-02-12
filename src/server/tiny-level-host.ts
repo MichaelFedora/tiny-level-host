@@ -28,7 +28,7 @@ try {
 
 async function cleanSessions() {
   try {
-    await db.cleanSessions();
+    await db.auth.cleanSessions();
     setTimeout(cleanSessions, 10 * 60 * 1000);
   } catch(e) {
     console.error(`Error cleaning sessions: ${e.stack || e}`);

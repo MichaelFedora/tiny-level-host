@@ -1,27 +1,3 @@
-export interface Session {
-  id?: string;
-  user: string;
-  scopes: string[];
-  readonly created: number;
-}
-
-export interface User {
-  id?: string;
-  readonly username: string;
-  pass: string;
-  salt: string;
-}
-
-export interface Config {
-  readonly ip: string;
-  readonly port: number;
-
-  readonly sessionExpTime: number;
-  readonly whitelist?: string[];
-
-  readonly dbName: string;
-}
-
 interface QueryExpressionSegment<T extends object = any, U extends keyof T = any> {
   // comparison
   readonly $eq?: T[U];
