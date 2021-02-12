@@ -11,24 +11,22 @@ class Api {
   private _router: Router;
   public get router() { return this._router; }
 
+  private _authApi: AuthApi;
+  public get authApi() { return this._authApi; }
+
+  private _dataApi: DataApi;
+  public get dataApi() { return this._dataApi; }
+
   constructor() { }
 
   init(config: Config) {
 
     this._router = Router();
 
-    const onUserDelete = async (user: User) => {
-      try {
-        await db.data.delAllUserData(user.id);
-      } catch(e) {
-        console.error('Error deleting user info!', e); // should I re-throw?
-      }
-    };
-
     const validateSession = validateUserSession(db.auth);
 
-    AuthApi.init(config, db.auth, onUserDelete, this.router);
-    DataApi.init(db.data, validateSession, this.router, handleError);
+    this._authApi = new AuthApi(config, db.auth, this.router);
+    this._dataApi = new DataApi(db.data, validateSession, this.router, handleError);
 
     this.router.use(handleError('api'));
   }

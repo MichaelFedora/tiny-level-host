@@ -21,6 +21,13 @@ try {
 
 try {
   db.init(config);
+  db.auth.onUserDelete.subscribe(async user => {
+    try {
+      await db.data.delAllUserData(user.id);
+    } catch(e) {
+      console.error('Error deleting user info!', e);
+    }
+  });
 } catch(e) {
   console.error(`Couldn't create database! ${e.stack || e}`);
   process.exit(1);

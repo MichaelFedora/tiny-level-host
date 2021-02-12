@@ -3,12 +3,17 @@ import { wrapAsync, handleError, NotAllowedError } from 'tiny-host-common';
 
 import { DataDB } from './data-db';
 
-class DataApi {
+export class DataApi {
 
-  init(db: DataDB,
+  private _router: Router;
+  public get router() { return this._router; }
+
+  constructor(db: DataDB,
     sessionValidator: (req: Request, res: Response, next: NextFunction) => void,
     router = Router(),
     errorHandler = handleError) {
+
+    this._router = router;
 
     const dbRouter = Router({ mergeParams: true });
 
@@ -78,5 +83,3 @@ class DataApi {
     }), errorHandler('batch-scope'));
   }
 }
-
-export default new DataApi();

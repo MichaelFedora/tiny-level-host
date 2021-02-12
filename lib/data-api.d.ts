@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { handleError } from 'tiny-host-common';
 import { DataDB } from './data-db';
-declare class DataApi {
-    init(db: DataDB, sessionValidator: (req: Request, res: Response, next: NextFunction) => void, router?: import("express-serve-static-core").Router, errorHandler?: typeof handleError): void;
+export declare class DataApi {
+    private _router;
+    get router(): Router;
+    constructor(db: DataDB, sessionValidator: (req: Request, res: Response, next: NextFunction) => void, router?: import("express-serve-static-core").Router, errorHandler?: typeof handleError);
 }
-declare const _default: DataApi;
-export default _default;

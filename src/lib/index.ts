@@ -1,5 +1,5 @@
 
-import DataApi from './data-api';
+import { DataApi } from './data-api';
 import { DataDB } from './data-db';
 
 import { QueryExpression, Query, SearchOptions, BatchOptions } from './types';
