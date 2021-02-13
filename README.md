@@ -27,6 +27,12 @@ interface Config {
 
 todo
 
+### todo
+
+- public (read) db scope
+  - so we can use a straight db instead of json files
+  - easier to keep up-to-date as well
+
 ### License
 
 MIT
