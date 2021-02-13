@@ -1,6 +1,6 @@
 import * as level from 'level';
 import { LevelUp } from 'levelup';
-import { DataDB } from '../lib';
+import { LevelDB } from '../lib';
 import { AuthDB } from 'tiny-host-common';
 
 import { Config } from './types';
@@ -13,8 +13,8 @@ class DB {
   private _auth: AuthDB;
   public get auth() { return this._auth; }
 
-  private _data: DataDB;
-  public get data() { return this._data; }
+  private _level: LevelDB;
+  public get level() { return this._level; }
 
   constructor() { }
 
@@ -22,7 +22,7 @@ class DB {
     this._db = level(config.dbName, { valueEncoding: 'json' }) as any;
     this._db.safeGet = (key: string) => this._db.get(key).catch(e => { if(e.notFound) return null; else throw e; });
     this._auth = new AuthDB(config, this._db);
-    this._data = new DataDB(this._db, username => this._auth.getUserFromUsername(username));
+    this._level = new LevelDB(this._db, username => this._auth.getUserFromUsername(username));
 
     /* dump
     this.db.createReadStream({ gt: 'file!!', lt: 'file!"' })

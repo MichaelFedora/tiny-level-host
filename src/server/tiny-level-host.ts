@@ -23,7 +23,7 @@ try {
   db.init(config);
   db.auth.onUserDelete.subscribe(async user => {
     try {
-      await db.data.delAllUserData(user.id);
+      await db.level.delAllUserData(user.id);
     } catch(e) {
       console.error('Error deleting user info!', e);
     }

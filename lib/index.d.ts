@@ -1,4 +1,4 @@
-import { DataApi } from './data-api';
-import { DataDB } from './data-db';
+import { LevelApi } from './level-api';
+import { LevelDB } from './level-db';
 import { QueryExpression, Query, SearchOptions, BatchOptions } from './types';
-export { DataApi, DataDB, QueryExpression, Query, SearchOptions, BatchOptions };
+export { LevelApi, LevelDB, QueryExpression, Query, SearchOptions, BatchOptions };

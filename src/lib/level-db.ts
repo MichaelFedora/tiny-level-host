@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { BatchOptions, SearchOptions } from './types';
 import { resolveQuery } from './util';
 
-export class DataDB {
+export class LevelDB {
 
   public get db(): LevelUp { return this._db; }
 

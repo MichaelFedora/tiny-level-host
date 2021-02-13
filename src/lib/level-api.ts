@@ -1,14 +1,14 @@
 import { json, NextFunction, Request, Response, Router } from 'express';
 import { wrapAsync, handleError, NotAllowedError } from 'tiny-host-common';
 
-import { DataDB } from './data-db';
+import { LevelDB } from './level-db';
 
-export class DataApi {
+export class LevelApi {
 
   private _router: Router;
   public get router() { return this._router; }
 
-  constructor(db: DataDB,
+  constructor(db: LevelDB,
     sessionValidator: (req: Request, res: Response, next: NextFunction) => void,
     router = Router(),
     errorHandler = handleError) {

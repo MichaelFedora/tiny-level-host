@@ -1,6 +1,6 @@
 import { LevelUp } from 'levelup';
 import { BatchOptions, SearchOptions } from './types';
-export declare class DataDB {
+export declare class LevelDB {
     private _db;
     getUserFromUsername: (username: string) => Promise<{
         id?: string;
