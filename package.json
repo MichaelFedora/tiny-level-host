@@ -20,24 +20,24 @@
   "author": "Michael Fedora",
   "license": "MIT",
   "devDependencies": {
-    "@types/cors": "^2.8.9",
+    "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/fs-extra": "^9.0.7",
     "@types/levelup": "^4.3.0",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^14.14.27",
+    "@types/node": "^14.14.28",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "del-cli": "^3.0.1",
-    "eslint": "^7.19.0",
+    "eslint": "^7.20.0",
     "typescript": "^4.1.5"
   },
   "dependencies": {
     "express": "^4.17.1",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.20",
-    "tiny-host-common": "github:michaelfedora/tiny-host-common",
+    "tiny-host-common": "github:michaelfedora/tiny-host-common#development",
     "uuid": "^8.3.2"
   },
   "optionalDependencies": {
