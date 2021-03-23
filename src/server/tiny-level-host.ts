@@ -4,6 +4,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as fs from 'fs-extra';
+import * as path from 'path';
 
 import { Config } from './types';
 import api from './api';
@@ -78,6 +79,9 @@ try {
   api.init(config);
 
   app.use('/', api.router);
+
+  app.use(express.static(path.join(__dirname, '../../node_modules/tiny-host-common/dist')));
+  app.get('*', (_, res) => res.sendFile(path.join(__dirname, '../../node_modules/tiny-host-common/dist/index.html')));
 
   app.use((err, req, res, next) => {
     console.error('Express caught an error!', err);

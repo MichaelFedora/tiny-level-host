@@ -1,14 +1,4 @@
+export { LevelApi } from './level-api';
+export { LevelDB } from './level-db';
 
-import { LevelApi } from './level-api';
-import { LevelDB } from './level-db';
-
-import { QueryExpression, Query, SearchOptions, BatchOptions } from './types';
-
-export {
-  LevelApi,
-  LevelDB,
-  QueryExpression,
-  Query,
-  SearchOptions,
-  BatchOptions
-}
+export { QueryExpression, Query, SearchOptions, BatchOptions } from 'tiny-host-common';

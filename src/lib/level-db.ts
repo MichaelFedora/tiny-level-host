@@ -3,8 +3,7 @@ import { AbstractIteratorOptions } from 'abstract-leveldown';
 import { v4 } from 'uuid';
 import { cloneDeep } from 'lodash';
 
-import { BatchOptions, SearchOptions } from './types';
-import { resolveQuery } from './util';
+import { BatchOptions, SearchOptions, resolveQuery } from 'tiny-host-common';
 
 export class LevelDB {
 

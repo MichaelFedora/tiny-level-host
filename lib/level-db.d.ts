@@ -1,5 +1,5 @@
 import { LevelUp } from 'levelup';
-import { BatchOptions, SearchOptions } from './types';
+import { BatchOptions, SearchOptions } from 'tiny-host-common';
 export declare class LevelDB {
     private _db;
     getUserFromUsername: (username: string) => Promise<{
